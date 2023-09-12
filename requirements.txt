@@ -1,0 +1,4 @@
+google-cloud-secret-manager
+google-crc32c
+discord.py
+openai
