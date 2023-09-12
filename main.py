@@ -4,6 +4,14 @@ import discord
 import openai
 import json as jason
 from pprint import pprint
+from flask import Flask, jsonify
+import os
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return jsonify({"status": "Bot is running!"}), 200
 
 def access_secret_version(
     project_id: str, secret_id: str, version_id: str
@@ -105,4 +113,11 @@ async def on_message(message):
             except:
                 await message.channel.send("The response was filtered due to the prompt triggering Azure OpenAI’s content management policy. Please modify your prompt and retry. To learn more about our content filtering policies please read our documentation: https://go.microsoft.com/fwlink/?linkid=2198766")
 
-client.run(DISCORD_TOKEN)
+if __name__ == "__main__":
+    import threading
+    
+    # Run the bot in its own thread
+    threading.Thread(target=client.run, args=(DISCORD_TOKEN,)).start()
+    
+    # Start the Flask app
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))
