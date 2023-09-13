@@ -68,8 +68,11 @@ app = Flask(__name__)
 def home():
     return jsonify({"status": "Bot is running!"}), 200
 
+intents = discord.Intents.default()
+intents.message_content = True
 
-client = discord.Client()
+client = discord.Client(intents=intents)
+
 history = {}  # Store history for each channel
 DISCORD_TOKEN = access_secret_version("crocobot-gpt", "discord_token", "1")
 
