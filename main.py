@@ -74,7 +74,7 @@ intents.message_content = True
 client = discord.Client(intents=intents)
 
 history = {}  # Store history for each channel
-DISCORD_TOKEN = access_secret_version("crocobot-gpt", "discord_token", "1")
+DISCORD_TOKEN = access_secret_version("crocobot-gpt", "discord_token", "3")
 
 @client.event
 async def on_ready():
@@ -100,7 +100,7 @@ async def on_message(message):
         # Store the interaction in history
         channel_history.append({"prompt": prompt, "response": gpt_response})
         history[message.channel.id] = channel_history
-        
+        print(history)
         await message.channel.send(gpt_response)
 
 if __name__ == "__main__":
