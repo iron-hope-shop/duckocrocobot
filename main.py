@@ -98,7 +98,7 @@ async def on_message(message):
 
     # Check if the message starts with any of the bot aliases
     bot_aliases = ["crocobot", "cb", "cdb", "cbd", "croc", "croco"]
-    if any(message.content.startswith(alias) for alias in bot_aliases):
+    if any(message.content.lower().startswith(alias.lower()) for alias in bot_aliases):
         # Get the rest of the message after the alias
         prompt = message.content.split(maxsplit=1)[1]
         
