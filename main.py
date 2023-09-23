@@ -4,6 +4,7 @@ import google_crc32c
 import threading
 import discord
 import openai
+import asyncio
 import os
 
 def access_secret_version(
