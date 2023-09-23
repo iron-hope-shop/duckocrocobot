@@ -111,12 +111,12 @@ async def on_message(message):
             # API call to openai
             gpt_response = query(prompt, channel_history)
         
-        # Store the interaction in history
-        channel_history.append({"prompt": prompt, "response": gpt_response})
-        history[message.channel.id] = channel_history
-        
-        # Send the message
-        await message.channel.send(gpt_response)
+            # Store the interaction in history
+            channel_history.append({"prompt": prompt, "response": gpt_response})
+            history[message.channel.id] = channel_history
+            
+            # Send the message
+            await message.channel.send(gpt_response)
 
 if __name__ == "__main__":
     setup_openai_api()
