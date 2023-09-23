@@ -106,13 +106,18 @@ async def on_message(message):
         # Retrieve history for the channel
         channel_history = history.get(message.channel.id, [])
         
+        # Print channel's permissions for the bot
+        permissions = message.channel.permissions_for(message.guild.me)
+        print(f"Bot Permissions in {message.channel.name}: {permissions}")
+        
         # Start typing indicator
         await message.channel.trigger_typing()
         
+        # Add a delay of 5 seconds (for diagnostic purposes)
+        await asyncio.sleep(5)
+        
         # API call to openai
         gpt_response = query(prompt, channel_history)
-        
-        # Typing indicator will automatically stop after sending a message
         
         # Store the interaction in history
         channel_history.append({"prompt": prompt, "response": gpt_response})
