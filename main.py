@@ -59,6 +59,7 @@ def query(user_query, channel_history):
 
     # Limit to the last 10 interactions (or whatever limit you prefer)
     messages = messages[-10:]
+    print(messages)
 
     # Asynchronous API call
     chat_completion_resp = openai.ChatCompletion.create(
@@ -105,13 +106,19 @@ async def on_message(message):
         # Retrieve history for the channel
         channel_history = history.get(message.channel.id, [])
         
+        # Start typing indicator
+        await message.channel.trigger_typing()
+        
         # API call to openai
         gpt_response = query(prompt, channel_history)
+        
+        # Typing indicator will automatically stop after sending a message
         
         # Store the interaction in history
         channel_history.append({"prompt": prompt, "response": gpt_response})
         history[message.channel.id] = channel_history
-        print(history)
+        
+        # Send the message
         await message.channel.send(gpt_response)
 
 if __name__ == "__main__":
