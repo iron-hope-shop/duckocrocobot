@@ -4,7 +4,6 @@ import google_crc32c
 import threading
 import discord
 import openai
-import asyncio
 import os
 
 def access_secret_version(
@@ -107,18 +106,10 @@ async def on_message(message):
         # Retrieve history for the channel
         channel_history = history.get(message.channel.id, [])
         
-        # Print channel's permissions for the bot
-        permissions = message.channel.permissions_for(message.guild.me)
-        print(f"Bot Permissions in {message.channel.name}: {permissions}")
-        
-        # Start typing indicator
-        await message.channel.trigger_typing()
-        
-        # Add a delay of 5 seconds (for diagnostic purposes)
-        await asyncio.sleep(5)
-        
-        # API call to openai
-        gpt_response = query(prompt, channel_history)
+        # Start typing indicator using the context manager
+        async with message.channel.typing():
+            # API call to openai
+            gpt_response = query(prompt, channel_history)
         
         # Store the interaction in history
         channel_history.append({"prompt": prompt, "response": gpt_response})
